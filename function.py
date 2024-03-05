@@ -105,7 +105,7 @@ def standardize(sorted_password_list: [[str]]) -> [[str]]:
         sorted_password_list[line_index][0] = (sorted_password_list[line_index][0] +
                                                (" " * (max_length_website - len(sorted_password_list[line_index][0]))))
         sorted_password_list[line_index][1] = (sorted_password_list[line_index][1] +
-                                               (" " * (max_length_website - len(sorted_password_list[line_index][1]))))
+                                               (" " * (max_length_password - len(sorted_password_list[line_index][1]))))
 
     return sorted_password_list
 

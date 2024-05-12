@@ -1,4 +1,4 @@
-import random
+import secrets
 
 
 def variable_input(var_type: str, texts=""):
@@ -51,7 +51,7 @@ def main():
         possible_list += numbers_list
 
     for _ in range(length):
-        password += chr(possible_list[random.randint(0, len(possible_list) - 1)])
+        password += chr(possible_list[secrets.randbelow(len(possible_list))])
 
     print(password)
 

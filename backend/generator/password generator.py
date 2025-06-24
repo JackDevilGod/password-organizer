@@ -1,59 +1,48 @@
 import secrets
 
 
-def variable_input(var_type: str, texts=""):
+class Password_generator:
+    """class for generating passwords.
     """
-    function to get the correct input
-    :param var_type:
-    :param texts:
-    :return:
-    """
-    in_texts = texts + "\n"
-    var = input(in_texts)
+    def __init__(self) -> None:
+        self._characters: dict[str, tuple[str, ...]] = self._generate_possible_character()
+        self._character_names: tuple[str, ...] = tuple(self._characters.keys())
 
-    match var_type:
-        case "num":
-            while not var.isnumeric():
-                var = input(in_texts)
+    @property
+    def character_options(self):
+        return self._character_names
 
-        case "alpha":
-            while not var.isalpha():
-                var = input(in_texts)
+    def _generate_possible_character(self) -> dict[str, tuple[str, ...]]:
+        dictionary: dict[str, list[str]] = dict()
 
-    return var
+        dictionary["letter (lowercase)"] = [chr(_) for _ in range(97, 123)]
+        dictionary["letter (uppercase)"] = [chr(_) for _ in range(65, 91)]
+        dictionary["numbers"] = [str(_) for _ in range(10)]
+        dictionary["punctuation"] = [".", "?", "'", '"', ",", "-", "—", "!", ":", ";", "(", ")",
+                                     "[", "]", "/", "…"]
+        dictionary["math expressions"] = ["+", "-", "*", "=", "%", "^"]
+
+        r_dictionary: dict[str, tuple[str, ...]] = dict()
+        for key in dictionary.keys():
+            r_dictionary[key] = tuple(dictionary[key])
+        return r_dictionary
 
 
-def main():
+def generate_password_from_list(length: int,
+                                possible_characters: list[str]) -> str:
+    if length > 0 and len(possible_characters) == 0:
+        raise ValueError("No available characters")
     password: str = ""
-
-    # settings
-    length: int = 20
-    symbols: bool = True
-    upper_letters: bool = True
-    lower_letters: bool = True
-    numbers: bool = True
-
-    symbol_list: list[int] = ([_ for _ in range(33, 47)] + [_ for _ in range(58, 65)] +
-                              [_ for _ in range(91, 97)] + [_ for _ in range(123, 127)])
-    upper_letters_list: list[int] = [_ for _ in range(65, 91)]
-    lower_letter_list: list[int] = [_ for _ in range(97, 123)]
-    numbers_list: list[int] = [_ for _ in range(48, 58)]
-
-    possible_list: list[int] = list()
-
-    if symbols:
-        possible_list += symbol_list
-    if upper_letters:
-        possible_list += upper_letters_list
-    if lower_letters:
-        possible_list += lower_letter_list
-    if numbers:
-        possible_list += numbers_list
+    list_length = len(possible_characters)
 
     for _ in range(length):
-        password += chr(possible_list[secrets.randbelow(len(possible_list))])
+        password += possible_characters[secrets.randbelow(list_length)]
 
-    print(password)
+    return password
+
+
+def main() -> None:
+    pass
 
 
 if __name__ == "__main__":

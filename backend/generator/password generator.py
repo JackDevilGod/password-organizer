@@ -8,36 +8,42 @@ class Password_generator:
         """Initialise the password generator class.
         """
         self._characters: dict[str, tuple[str, ...]] = self._generate_possible_character()
-        self._character_type: tuple[tuple[str, bool], ...] = tuple([(_, _ == "")
-                                                                    for _ in self._characters.keys()
-                                                                    ])
+        self._character_types: tuple[tuple[str, bool], ...] = tuple([
+            (_, _ == "letter (lowercase)") for _ in self._characters.keys()
+            ])
+        self._characters_selected: tuple[str, ...] = self._characters["letter (lowercase)"]
 
-    @property
-    def character_options(self) -> tuple[str, ...]:
+    def get_character_types(self) -> tuple[str, ...]:
         """get all character type names without direct access.
 
         Returns:
             tuple[str, ...]: tuple of string that are the names of the type of character.
         """
-        return tuple([_[0] for _ in self._character_type])
+        return tuple([_[0] for _ in self._character_types])
 
-    @property
-    def selected_characters(self) -> tuple[bool, ...]:
+    def get_selected_characters_types(self) -> tuple[bool, ...]:
         """Get a tuple of character types that are included or not.
 
         Returns:
             tuple[bool, ...]: tuple of bool that represents if the character type is included
         """
-        return tuple([_[1] for _ in self._character_type])
+        return tuple([_[1] for _ in self._character_types])
 
-    @selected_characters.setter
-    def selected_characters(self, new_selected: tuple[bool, ...]) -> None:
-        if len(new_selected) != len(self._character_type):
+    def set_selected_characters_types(self, new_selected: tuple[bool, ...]) -> None:
+        if len(new_selected) != len(self._character_types):
             raise ValueError("The amount selected and not do not match")
 
-        self._character_type = tuple([(chr_type[0], stat)
-                                      for chr_type, stat in zip(self._character_type, new_selected)
-                                      ])
+        self._character_types = tuple([(chr_type[0], stat)
+                                      for chr_type, stat in zip(self._character_types, new_selected)
+                                       ])
+
+        new_selected_characters: list[str] = []
+
+        for chr_type, selection in self._character_types:
+            if selection:
+                new_selected_characters += list(self._characters[chr_type])
+
+        self._characters_selected = tuple(new_selected_characters)
 
     def _generate_possible_character(self) -> dict[str, tuple[str, ...]]:
         dictionary: dict[str, list[str]] = dict()
@@ -58,11 +64,29 @@ class Password_generator:
         return r_dictionary
 
     def generate_password(self, length: int) -> str:
-        pass
+        """generate password of given length with the preset character types selected.
+
+        Args:
+            length (int): length of password to generate.
+
+        Returns:
+            str: the password generated.
+        """
+        password: str = ""
+
+        for _ in range(length):
+            password += self._characters_selected[secrets.randbelow(len(self._characters_selected))]
+
+        return password
 
 
 def main() -> None:
-    pass
+    test = Password_generator()
+    print(test.generate_password(20))
+    x = test.get_character_types()
+
+    test.set_selected_characters_types(tuple([True for _ in range(len(x))]))
+    print(test.generate_password(20))
 
 
 if __name__ == "__main__":

@@ -21,6 +21,9 @@ class Password_generator:
         dictionary["punctuation"] = [".", "?", "'", '"', ",", "-", "—", "!", ":", ";", "(", ")",
                                      "[", "]", "/", "…"]
         dictionary["math expressions"] = ["+", "-", "*", "=", "%", "^"]
+        dictionary["accented characters"] = ([chr(_) for _ in range(192, 215)] +
+                                             [chr(_) for _ in range(216, 247)] +
+                                             [chr(_) for _ in range(248, 256)])
 
         r_dictionary: dict[str, tuple[str, ...]] = dict()
         for key in dictionary.keys():

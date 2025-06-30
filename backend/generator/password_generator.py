@@ -7,7 +7,7 @@ class Password_generator:
     def __init__(self) -> None:
         """Initialise the password generator class.
         """
-        default_types: tuple[str, ...] = ("letter (lowercase)")
+        default_types: tuple[str, ...] = tuple("letter (lowercase)")
         self._characters: dict[str, tuple[str, ...]] = self._generate_possible_character()
         self._character_types: tuple[tuple[str, bool], ...] = tuple([
             (_, _ in default_types) for _ in self._characters.keys()

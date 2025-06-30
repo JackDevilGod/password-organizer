@@ -22,8 +22,10 @@ def who_goes_first(first_word: str, second_word: str) -> int:
     else:
         return 1
 
+    return 1
 
-def mergesort(password_list: [[str]]) -> [[str]]:
+
+def mergesort(password_list: list[list[str]]) -> list[list[str]]:
     """
     uses merge sort to sort the list based of website name
     :param password_list:
@@ -67,7 +69,7 @@ def mergesort(password_list: [[str]]) -> [[str]]:
         return srtlst
 
 
-def remove_redundant_spaces(password_list: [[str]]) -> [[str]]:
+def remove_redundant_spaces(password_list: list[list[str]]) -> list[list[str]]:
     """
     removes redundant spaces in front and back of website name, password and username
     :param password_list:
@@ -82,7 +84,7 @@ def remove_redundant_spaces(password_list: [[str]]) -> [[str]]:
     return password_list
 
 
-def standardize(sorted_password_list: [[str]]) -> [[str]]:
+def standardize(sorted_password_list: list[list[str]]) -> list[list[str]]:
     """
     adds redundant spaces to the back of website names and password to standardize their size
     :param sorted_password_list:
@@ -108,7 +110,6 @@ def standardize(sorted_password_list: [[str]]) -> [[str]]:
                                                (" " * (max_length_password - len(sorted_password_list[line_index][1]))))
 
     return sorted_password_list
-
 
 def main():
     return
